@@ -50,4 +50,5 @@ jobs:
       - name: Run the build
         run: |
           npm run eslint
+          npm test
           npm run build

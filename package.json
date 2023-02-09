@@ -33,10 +33,10 @@
     "bump:minor": "bump minor --commit 'Prepare v%s release' package.json README.md plugin.php",
     "bump:major": "bump major --commit 'Prepare v%s release' package.json README.md plugin.php"
   },
-  "dependencies": {},
   "devDependencies": {
     "@humanmade/webpack-helpers": "^1.0.0-beta.16",
     "babel-eslint": "^10.1.0",
+    "babel-jest": "^29.4.2",
     "eslint": "^7.32.0",
     "eslint-plugin-flowtype": "^3.13.0",
     "eslint-plugin-import": "^2.26.0",
