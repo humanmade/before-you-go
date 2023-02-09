@@ -26,7 +26,7 @@
     "test": "jest",
     "lint": "npm run eslint; npm run phpcs",
     "eslint": "eslint src .eslintrc.js",
-    "phpcs": "composer lint",
+    "phpcs": "composer phpcs",
     "start": "webpack-dev-server --config=.webpack/webpack.config.dev.js",
     "build": "webpack --config=.webpack/webpack.config.prod.js",
     "bump:patch": "bump patch --commit 'Prepare v%s release' package.json README.md plugin.php",
