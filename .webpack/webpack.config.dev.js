@@ -1,3 +1,5 @@
+require( './restrict-hierarchy-lookup' );
+
 const { externals, helpers, presets } = require( '@humanmade/webpack-helpers' );
 
 const { choosePort, cleanOnExit, filePath } = helpers;

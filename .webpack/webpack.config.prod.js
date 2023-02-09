@@ -1,3 +1,5 @@
+require( './restrict-hierarchy-lookup' );
+
 const { externals, helpers, plugins, presets } = require( '@humanmade/webpack-helpers' );
 
 const { filePath } = helpers;
