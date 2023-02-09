@@ -13,5 +13,5 @@ namespace Before_You_Go;
  * Connect namespace functions to actions and hooks.
  */
 function bootstrap() : void {
-	// TK
+	// TK.
 }
