@@ -1,5 +1,6 @@
 /* eslint quote-props: [ 'error', 'always' ] */// This file only.
 module.exports = {
+	'root': true,
 	'extends': [
 		'eslint:recommended',
 		'plugin:import/errors',
