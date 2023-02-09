@@ -2,6 +2,7 @@
 <ruleset>
 	<rule ref="HM">
 		<exclude name="Squiz.Commenting.FunctionComment.ParamCommentFullStop" />
+		<exclude name="WordPress.NamingConventions.ValidHookName.UseUnderscores" />
 	</rule>
 
 	<!-- Turn off rules which feel superfluous or distracting within test files. -->
