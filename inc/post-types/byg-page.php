@@ -76,3 +76,21 @@ function register_type() {
 
 	register_post_type( POST_TYPE, $args );
 }
+
+/**
+ * Return the URL of the most recent BYG item, if there is one.
+ *
+ * @return string|null Target URL, or null if no BYG target available.
+ */
+function get_latest_byg_permalink() : ?string {
+	$byg_post = get_posts( [
+		'post_type'   => POST_TYPE,
+		'numberposts' => 1,
+	] );
+
+	if ( empty( $byg_post ) ) {
+		return null;
+	}
+
+	return get_permalink( $byg_post[0] );
+}

@@ -10,6 +10,7 @@ declare( strict_types=1 );
 namespace Before_You_Go\Assets;
 
 use Asset_Loader;
+use Before_You_Go\Post_Types\BYG_Page;
 
 /**
  * Connect namespace functions to actions and hooks.
@@ -59,24 +60,17 @@ function register_build_asset( $handle, $asset, $dependencies = [] ) : void {
 }
 
 /**
- * Enqueue frontend assets.
+ * Render
  *
- * @return void
+ * @return string
  */
-function enqueue_frontend_scripts() : void {
-	register_build_asset(
-		'byg-frontend',
-		'before-you-go-frontend.js',
-		/**
-		 * Allow a theme or plugin to integrate with this plugin by registering
-		 * a custom script as a dependency of our BYG frontend script. If the
-		 * dependency script defines a BYG global with a custom callback or
-		 * trigger, that will alter the behavior of the BYG activation.
-		 *
-		 * @param string[] $dependencies Script handles to load ahead of the frontend bundle.
-		 */
-		apply_filters( 'byg\script_dependencies', [] )
-	);
+function byg_script() : string {
+
+	$target_link = BYG_Page\get_latest_byg_permalink();
+
+	if ( empty( $target_link ) ) {
+		return '';
+	}
 
 	$inline_script = [
 		'window.BYG = window.BYG || {};',
@@ -106,8 +100,33 @@ function enqueue_frontend_scripts() : void {
 				apply_filters( 'byg/utm_sources', [ 'Twitter', 'Facebook' ] )
 			)
 		),
+		sprintf( 'window.BYG.url = "%s";', esc_url( $target_link ) ),
 	];
-	wp_add_inline_script( 'byg-frontend', implode( "\n", $inline_script ) );
+
+	return implode( "\n", $inline_script );
+}
+
+/**
+ * Enqueue frontend assets.
+ *
+ * @return void
+ */
+function enqueue_frontend_scripts() : void {
+	register_build_asset(
+		'byg-frontend',
+		'before-you-go-frontend.js',
+		/**
+		 * Allow a theme or plugin to integrate with this plugin by registering
+		 * a custom script as a dependency of our BYG frontend script. If the
+		 * dependency script defines a BYG global with a custom callback or
+		 * trigger, that will alter the behavior of the BYG activation.
+		 *
+		 * @param string[] $dependencies Script handles to load ahead of the frontend bundle.
+		 */
+		apply_filters( 'byg\script_dependencies', [] )
+	);
+
+	wp_add_inline_script( 'byg-frontend', byg_script() );
 
 	wp_enqueue_script( 'byg-frontend' );
 }

@@ -1,3 +1,4 @@
+import { injectPage } from './services/history';
 import { has as hasQuery } from './services/query';
 import { has as hasReferrer } from './services/referrer';
 
@@ -17,17 +18,22 @@ import { has as hasReferrer } from './services/referrer';
  *
  * @param {BYG} BYG Before You Go window global object.
  */
-const defaultTrigger = ( { referrers, utmSources, callback } ) => {
+const defaultTrigger = ( BYG ) => {
+	const { referrers, utmSources, callback } = BYG;
 	if ( hasQuery( 'utm_source', utmSources ) || hasReferrer( referrers ) ) {
-		callback();
+		callback( BYG );
 	}
 };
 
 /**
  * Default callback to fire when BYG trigger condition is met.
+ *
+ * @param {BYG} BYG Before You Go window object.
  */
-const defaultCallback = () => {
-	alert( 'BYG would initialize!' );
+const defaultCallback = ( { url } ) => {
+	if ( url ) {
+		injectPage( {}, url );
+	}
 };
 
 window.addEventListener( 'load', () => {
@@ -38,7 +44,18 @@ window.addEventListener( 'load', () => {
 		utmSources: [],
 	}, window.BYG || {} );
 
-	// Ensure trigger and callback are callable.
+	if ( typeof BYG.trigger === 'function' ) {
+		// Custom logic present. Run BYG.trigger.
+		BYG.trigger( BYG );
+		return;
+	}
+
+	if ( ! BYG.url ) {
+		// No custom logic and no known target. Cannot proceed.
+		return;
+	}
+
+	// Default logic. Ensure trigger and callback are callable.
 	if ( typeof BYG.trigger !== 'function' ) {
 		BYG.trigger = defaultTrigger;
 	}
