@@ -29,7 +29,8 @@ runs:
       uses: shimataro/ssh-key-action@v2
       with:
         key: ${{ secrets.DEPLOY_KEY }}
-        name: is_rsa-github-actions
+        name: id_ed25519
+        if_key_exists: replace
 
     - name: Check out release branch
       uses: actions/checkout@v3
