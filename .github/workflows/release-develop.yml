@@ -25,7 +25,6 @@ jobs:
         uses: shimataro/ssh-key-action@v2
         with:
           key: ${{ secrets.DEPLOY_KEY }}
-          name: id_ed25519
           known_hosts: unnecessary # github.com is added automatically
           if_key_exists: replace
 
