@@ -24,6 +24,7 @@ runs:
       run: |
         git config user.name "Your friendly neighborhood GH Actions Bot"
         git config user.email "<>"
+        git config url.ssh://git@github.com/.insteadOf https://github.com/
 
     - name: Check out release branch
       uses: actions/checkout@v3
