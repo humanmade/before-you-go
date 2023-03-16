@@ -26,15 +26,14 @@ export const injectPage = ( data, url ) => {
 	 * @param {Window} event.target Window state after pop navigation.
 	 * @returns {Function}
 	 */
-	const onPopState = () => setTimeout(
-		( { target } ) => {
+	const onPopState = ( { target } ) =>
+		setTimeout( () => {
 			if ( target.location.href === url ) {
 				target.location.reload();
 			}
 
 			removeEventListener( 'popstate', onPopState );
-		}
-	);
+		} );
 
 	history.replaceState( data, '', url );
 	history.pushState( {}, '', currentPage );
