@@ -24,9 +24,8 @@ export const injectPage = ( data, url ) => {
 	 *
 	 * @param {Event} event HTML popstate event triggered by back nutton navigation.
 	 * @param {Window} event.target Window state after pop navigation.
-	 * @returns {Function}
 	 */
-	const onPopState = ( { target } ) =>
+	const onPopState = ( { target } ) => {
 		setTimeout( () => {
 			if ( target.location.href === url ) {
 				target.location.reload();
@@ -34,6 +33,9 @@ export const injectPage = ( data, url ) => {
 
 			removeEventListener( 'popstate', onPopState );
 		} );
+
+		return;
+	};
 
 	history.replaceState( data, '', url );
 	history.pushState( {}, '', currentPage );
