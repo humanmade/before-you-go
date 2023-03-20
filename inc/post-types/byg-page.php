@@ -14,6 +14,7 @@ const POST_TYPE = 'byg-page';
  */
 function bootstrap() : void {
 	add_action( 'init', __NAMESPACE__ . '\\register_type' );
+
 }
 
 /**
@@ -75,6 +76,12 @@ function register_type() {
 	];
 
 	register_post_type( POST_TYPE, $args );
+
+	register_post_meta( POST_TYPE, 'byg-audience', [
+		'single' => true,
+		'type' => 'integer',
+		'show_in_rest' => true,
+	] );
 }
 
 /**

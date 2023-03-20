@@ -126,7 +126,7 @@ module.exports = {
 		'eqeqeq': [ 'error', 'smart' ],
 		'func-call-spacing': 'error',
 		'import/no-unresolved': 'off',
-		'indent': [ 'error', 'tab', {
+		'indent': [ 'warn', 'tab', {
 			'SwitchCase': 1,
 			'flatTernaryExpressions': false,
 			'offsetTernaryExpressions': false,
@@ -276,7 +276,7 @@ module.exports = {
 		'no-template-curly-in-string': 'warn',
 		'no-this-before-super': 'warn',
 		'no-throw-literal': 'warn',
-		'no-undef': 'error',
+		'no-undef': 'off',
 		'no-restricted-globals': [
 			'error',
 			'addEventListener',
@@ -400,13 +400,11 @@ module.exports = {
 			'allowAllCaps': true,
 			'ignore': [],
 		} ],
-		'react/jsx-uses-react': 'warn',
 		'react/jsx-uses-vars': 'warn',
 		'react/no-danger-with-children': 'warn',
 		'react/no-direct-mutation-state': 'warn',
 		'react/no-is-mounted': 'warn',
 		'react/no-typos': 'error',
-		'react/react-in-jsx-scope': 'error',
 		'react/require-render-return': 'error',
 		'react/style-prop-object': 'warn',
 		'jsx-a11y/accessible-emoji': 'warn',
