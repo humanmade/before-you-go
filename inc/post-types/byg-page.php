@@ -40,7 +40,7 @@ function register_type() {
 
 	$args = [
 		'labels'              => $labels,
-		'hierarchical'        => false,
+		'hierarchical'        => true,
 		'description'         => 'Before You Go pages are used to display customizable content to users leaving the site after visiting from social media.',
 		'public'              => true,
 		'show_ui'             => true,
