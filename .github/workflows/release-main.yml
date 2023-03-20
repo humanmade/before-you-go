@@ -3,7 +3,7 @@ name: Develop Release
 on:
   push:
     branches:
-      - develop
+      - main
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref_name }}
@@ -11,7 +11,7 @@ concurrency:
 
 jobs:
   release:
-    name: "Update release-develop branch"
+    name: "Update release branch"
     runs-on: ubuntu-latest
     steps:
       - name: Check out
@@ -34,8 +34,8 @@ jobs:
       - name: Merge and build
         uses: ./.github/actions/build-to-release-branch
         with:
-          source_branch: develop
-          release_branch: release-develop
+          source_branch: main
+          release_branch: release
           built_asset_paths: build
           build_script: |
             npm ci
