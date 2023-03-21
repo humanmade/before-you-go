@@ -12,7 +12,10 @@ module.exports = choosePort( 9090 ).then( ( port ) => presets.development( {
 		server: 'https',
 		port,
 	},
-	externals,
+    externals: {
+		...externals,
+		'@altis/analytics': 'Altis.Analytics',
+	},
 	entry: {
 		'before-you-go-editor': filePath( 'src/editor.js' ),
 		'before-you-go-frontend': filePath( 'src/frontend.js' ),
