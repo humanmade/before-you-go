@@ -1,6 +1,5 @@
+import { getMatchingAudience } from './services/audiences';
 import { injectPage } from './services/history';
-import { has as hasQuery } from './services/query';
-import { has as hasReferrer } from './services/referrer';
 
 /**
  * BYG global object, mostly PHP-filterable.
@@ -19,10 +18,11 @@ import { has as hasReferrer } from './services/referrer';
  * @param {BYG} BYG Before You Go window global object.
  */
 const defaultTrigger = ( BYG ) => {
-	const { referrers, utmSources, callback } = BYG;
-	if ( hasQuery( 'utm_source', utmSources ) || hasReferrer( referrers ) ) {
-		callback( BYG );
-	}
+	const { callback, urls } = BYG;
+
+	BYG.url = getMatchingAudience( urls );
+
+	callback( BYG );
 };
 
 /**
@@ -37,6 +37,7 @@ const defaultCallback = ( { url } ) => {
 };
 
 window.addEventListener( 'load', () => {
+
 	// Read in the BYG global values and ensure required arrays are present.
 	/** @type {BYG} */
 	const BYG = Object.assign( {
@@ -47,11 +48,6 @@ window.addEventListener( 'load', () => {
 	if ( typeof BYG.trigger === 'function' ) {
 		// Custom logic present. Run BYG.trigger.
 		BYG.trigger( BYG );
-		return;
-	}
-
-	if ( ! BYG.url ) {
-		// No custom logic and no known target. Cannot proceed.
 		return;
 	}
 

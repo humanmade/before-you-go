@@ -67,9 +67,9 @@ function register_build_asset( $handle, $asset, $dependencies = [] ) : void {
  */
 function byg_script() : string {
 
-	$target_link = BYG_Page\get_latest_byg_permalink();
+	$byg_config = BYG_Page\get_byg_pages();
 
-	if ( empty( $target_link ) ) {
+	if ( empty( $byg_config ) ) {
 		return '';
 	}
 
@@ -80,28 +80,9 @@ function byg_script() : string {
 			( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? 'true' : 'false'
 		),
 		sprintf(
-			'window.BYG.referrers = %s;',
-			wp_json_encode(
-				/**
-				 * Permit customization of the referrers which trigger BYG functionality.
-				 *
-				 * @param string[] $trigger_referrers Referrers which trigger BYG initialization.
-				 */
-				apply_filters( 'byg/referrers', [ 't.co', 'twitter.com', 'facebook.com' ] )
-			)
+			'window.BYG.urls = %s;',
+			json_encode( $byg_config )
 		),
-		sprintf(
-			'window.BYG.utmSources = %s;',
-			wp_json_encode(
-				/**
-				 * Permit customization of the utm_source values which trigger BYG functionality.
-				 *
-				 * @param string[] $trigger_sources utm_source values which trigger BYG initialization.
-				 */
-				apply_filters( 'byg/utm_sources', [ 'Twitter', 'Facebook' ] )
-			)
-		),
-		sprintf( 'window.BYG.url = "%s";', esc_url( $target_link ) ),
 	];
 
 	return implode( "\n", $inline_script );

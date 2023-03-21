@@ -3,15 +3,13 @@
  * specific audience.
  *
  */
-// global Altis:false
+import { components as altisComponents } from '@altis/analytics';
 import { useMeta } from '@humanmade/block-editor-components';
 
 import { useSelect } from '@wordpress/data';
 import { PluginDocumentSettingPanel } from '@wordpress/edit-post';
 import { __ } from '@wordpress/i18n';
 import { registerPlugin } from '@wordpress/plugins';
-
-const { AudiencePicker } = Altis.Analytics.components;
 
 export const name = 'before-you-go-audience-picker';
 
@@ -24,7 +22,8 @@ export const name = 'before-you-go-audience-picker';
  * @returns {Component} Sidebar slotfill panel for selecting target audience.
  */
 const AudienceSelectionPanel = function AudienceSelectionPanel() {
-	const [ audience, setAudience ] = useMeta( 'byg-post-audience' );
+	const [ audience, setAudience ] = useMeta( 'byg-audience' );
+	const { AudiencePicker } = altisComponents;
 
 	return (
 		<PluginDocumentSettingPanel
@@ -72,3 +71,8 @@ export const settings = {
 };
 
 registerPlugin( name, settings );
+
+if ( module.hot ) {
+	module.hot.dispose( () => unregisterPlugin( name ) );
+	module.hot.accept();
+}
