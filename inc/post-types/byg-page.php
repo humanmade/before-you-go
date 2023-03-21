@@ -90,12 +90,18 @@ function register_type() {
 		),
 		'show_in_rest' => [
 			'schema' => [
-				'type' => 'integer'
+				'type' => 'integer',
 			],
 		],
 	] );
 }
 
+/**
+ * Add a column for "audience to the post list table for BYG posts.
+ *
+ * @param array $post_columns Array of column titles, keyed by column ID.
+ * @return array Filtered array of list table column titles.
+ */
 function add_audience_column( $post_columns ) {
 	return array_merge(
 		array_slice( $post_columns, 0, -1 ),
@@ -104,13 +110,19 @@ function add_audience_column( $post_columns ) {
 	);
 }
 
+/**
+ * Render the content of the "audience" list table column.
+ *
+ * @param string $column_name Key of column to output.
+ * @param int $post_id ID of current post.
+ * @return void
+ */
 function output_byg_page_audience( $column_name, $post_id ) {
 	if ( $column_name !== 'audience' ) {
 		return;
 	}
 
 	$audience_id = get_post_meta( $post_id, AUDIENCE_META_KEY, true );
-
 	echo $audience_id ? get_the_title( $audience_id ) : esc_html__( 'No audience defined', 'byg-admin' );
 }
 
