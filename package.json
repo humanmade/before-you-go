@@ -23,7 +23,7 @@
     "block-editor"
   ],
   "scripts": {
-    "test": "jest",
+    "test": "jest --passWithNoTests",
     "lint": "npm run eslint; npm run phpcs",
     "eslint": "eslint src .eslintrc.js",
     "phpcs": "composer phpcs",
