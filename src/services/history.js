@@ -6,9 +6,9 @@ const { history, addEventListener, removeEventListener } = window;
  * page "back" from the current one.
  *
  * @param {any}             data  Data to set in the injected page state.
- * @param {string|URL|null} [url] URL of the history entry to inject.
+ * @param {string|URL|null} bygUrl URL of the history entry to inject.
  */
-export const injectPage = ( data, url ) => {
+export const injectPage = ( data, bygUrl ) => {
 	const currentPage = window.location.href;
 
 	/**
@@ -27,7 +27,7 @@ export const injectPage = ( data, url ) => {
 	 */
 	const onPopState = ( { target } ) => {
 		setTimeout( () => {
-			if ( target.location.href === url ) {
+			if ( [ bygUrl, currentPage ].includes( target.location.href ) ) {
 				target.location.reload();
 			}
 
@@ -37,7 +37,7 @@ export const injectPage = ( data, url ) => {
 		return;
 	};
 
-	history.replaceState( data, '', url );
+	history.replaceState( data, '', bygUrl );
 	history.pushState( {}, '', currentPage );
 
 	addEventListener( 'popstate', onPopState );
