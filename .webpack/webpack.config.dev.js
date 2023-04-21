@@ -12,7 +12,7 @@ module.exports = choosePort( 9090 ).then( ( port ) => presets.development( {
 		server: 'https',
 		port,
 	},
-    externals: {
+	externals: {
 		...externals,
 		'@altis/analytics': 'Altis.Analytics',
 	},
