@@ -97,15 +97,7 @@ function enqueue_frontend_scripts() : void {
 	register_build_asset(
 		'byg-frontend',
 		'before-you-go-frontend.js',
-		/**
-		 * Allow a theme or plugin to integrate with this plugin by registering
-		 * a custom script as a dependency of our BYG frontend script. If the
-		 * dependency script defines a BYG global with a custom callback or
-		 * trigger, that will alter the behavior of the BYG activation.
-		 *
-		 * @param string[] $dependencies Script handles to load ahead of the frontend bundle.
-		 */
-		apply_filters( 'byg\script_dependencies', [] )
+		[]
 	);
 
 	wp_add_inline_script( 'byg-frontend', byg_script() );
@@ -122,15 +114,7 @@ function enqueue_block_editor_assets() : void {
 	register_build_asset(
 		'byg-editor',
 		'before-you-go-editor.js',
-		/**
-		 * Allow a theme or plugin to integrate with this plugin by registering
-		 * a custom script as a dependency of our BYG frontend script. If the
-		 * dependency script defines a BYG global with a custom callback or
-		 * trigger, that will alter the behavior of the BYG activation.
-		 *
-		 * @param string[] $dependencies Script handles to load ahead of the frontend bundle.
-		 */
-		apply_filters( 'byg\editor_script_dependencies', [ 'altis-analytics-audience-ui' ] )
+		[ 'altis-analytics-audience-ui' ]
 	);
 
 	wp_enqueue_script( 'byg-editor' );
