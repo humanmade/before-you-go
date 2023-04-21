@@ -1,4 +1,4 @@
-const { history } = window;
+const { history, addEventListener, removeEventListener } = window;
 
 /**
  * Insert a page into the history, by replacing the current page with the
@@ -6,11 +6,39 @@ const { history } = window;
  * page "back" from the current one.
  *
  * @param {any}             data  Data to set in the injected page state.
- * @param {string|URL|null} [url] URL of the history entry to inject.
+ * @param {string|URL|null} bygUrl URL of the history entry to inject.
  */
-export const injectPage = ( data, url ) => {
+export const injectPage = ( data, bygUrl ) => {
 	const currentPage = window.location.href;
 
-	history.replaceState( data, '', url );
+	/**
+	 * Handle popstate navigation in browsers that don't allow access to it directly.
+	 *
+	 * Browsers have different behavior when it comes to reloading "virtual"
+	 * pageviews through their respective History APIs (see
+	 * https://developer.mozilla.org/en-US/docs/Web/API/History_API/Working_with_the_History_API).
+	 * Some browsers, when navigating back to entries which exist in their
+	 * history, will reload from the URL, while others only update the location
+	 * bar and the state object. This function, run after the popstate event
+	 * occurs, ensures we get a new pageload rather than solely a location bar update.
+	 *
+	 * @param {Event} event HTML popstate event triggered by back nutton navigation.
+	 * @param {Window} event.target Window state after pop navigation.
+	 */
+	const onPopState = ( { target } ) => {
+		setTimeout( () => {
+			if ( [ bygUrl, currentPage ].includes( target.location.href ) ) {
+				target.location.reload();
+			}
+
+			removeEventListener( 'popstate', onPopState );
+		} );
+
+		return;
+	};
+
+	history.replaceState( data, '', bygUrl );
 	history.pushState( {}, '', currentPage );
+
+	addEventListener( 'popstate', onPopState );
 };
