@@ -97,7 +97,7 @@ function register_type() {
 }
 
 /**
- * Add a column for "audience to the post list table for BYG posts.
+ * Add a column for "audience" to the post list table for BYG posts.
  *
  * @param array $post_columns Array of column titles, keyed by column ID.
  * @return array Filtered array of list table column titles.
