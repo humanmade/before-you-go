@@ -276,7 +276,7 @@ module.exports = {
 		'no-template-curly-in-string': 'warn',
 		'no-this-before-super': 'warn',
 		'no-throw-literal': 'warn',
-		'no-undef': 'off',
+		'no-undef': 'warn',
 		'no-restricted-globals': [
 			'error',
 			'addEventListener',
