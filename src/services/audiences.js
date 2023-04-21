@@ -4,17 +4,9 @@
 import { getAudiences } from '@altis/analytics';
 
 /**
- * Before go you page setting.
- *
- * @typedef {object} BYG_Config
- * @property {string} permalink URL of page to serve.
- * @property {integer} audience Post ID of audience for this page.
- */
-
-/**
  * Find the first matching audience from an array of pages.
  *
- * @param {BYG_Config[]} urls Array of Before You Go pages and their audiences.
+ * @param {BYG_Page[]} urls Array of Before You Go pages and their audiences.
  * @returns {?string}  URL of BYG page to serve, if one matches.
  */
 export const getMatchingAudience = ( urls ) => {
