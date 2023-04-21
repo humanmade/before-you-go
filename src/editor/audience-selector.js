@@ -9,7 +9,7 @@ import { useMeta } from '@humanmade/block-editor-components';
 import { useSelect } from '@wordpress/data';
 import { PluginDocumentSettingPanel } from '@wordpress/edit-post';
 import { __ } from '@wordpress/i18n';
-import { registerPlugin } from '@wordpress/plugins';
+import { registerPlugin, unregisterPlugin } from '@wordpress/plugins';
 
 export const name = 'before-you-go-audience-picker';
 
