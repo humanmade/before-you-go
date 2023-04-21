@@ -22,6 +22,7 @@ function bootstrap() : void {
 	}
 
 	add_action( 'wp_enqueue_scripts', __NAMESPACE__ . '\\enqueue_frontend_scripts' );
+	add_action( 'enqueue_block_editor_assets', __NAMESPACE__ . '\\enqueue_block_editor_assets' );
 }
 
 /**
@@ -66,9 +67,9 @@ function register_build_asset( $handle, $asset, $dependencies = [] ) : void {
  */
 function byg_script() : string {
 
-	$target_link = BYG_Page\get_latest_byg_permalink();
+	$byg_config = BYG_Page\get_byg_pages();
 
-	if ( empty( $target_link ) ) {
+	if ( empty( $byg_config ) ) {
 		return '';
 	}
 
@@ -79,28 +80,9 @@ function byg_script() : string {
 			( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? 'true' : 'false'
 		),
 		sprintf(
-			'window.BYG.referrers = %s;',
-			wp_json_encode(
-				/**
-				 * Permit customization of the referrers which trigger BYG functionality.
-				 *
-				 * @param string[] $trigger_referrers Referrers which trigger BYG initialization.
-				 */
-				apply_filters( 'byg/referrers', [ 't.co', 'twitter.com', 'facebook.com' ] )
-			)
+			'window.BYG.urls = %s;',
+			json_encode( $byg_config )
 		),
-		sprintf(
-			'window.BYG.utmSources = %s;',
-			wp_json_encode(
-				/**
-				 * Permit customization of the utm_source values which trigger BYG functionality.
-				 *
-				 * @param string[] $trigger_sources utm_source values which trigger BYG initialization.
-				 */
-				apply_filters( 'byg/utm_sources', [ 'Twitter', 'Facebook' ] )
-			)
-		),
-		sprintf( 'window.BYG.url = "%s";', esc_url( $target_link ) ),
 	];
 
 	return implode( "\n", $inline_script );
@@ -115,18 +97,25 @@ function enqueue_frontend_scripts() : void {
 	register_build_asset(
 		'byg-frontend',
 		'before-you-go-frontend.js',
-		/**
-		 * Allow a theme or plugin to integrate with this plugin by registering
-		 * a custom script as a dependency of our BYG frontend script. If the
-		 * dependency script defines a BYG global with a custom callback or
-		 * trigger, that will alter the behavior of the BYG activation.
-		 *
-		 * @param string[] $dependencies Script handles to load ahead of the frontend bundle.
-		 */
-		apply_filters( 'byg\script_dependencies', [] )
+		[]
 	);
 
 	wp_add_inline_script( 'byg-frontend', byg_script() );
 
 	wp_enqueue_script( 'byg-frontend' );
+}
+
+/**
+ * Enqueue block editor assets.
+ *
+ * @return void
+ */
+function enqueue_block_editor_assets() : void {
+	register_build_asset(
+		'byg-editor',
+		'before-you-go-editor.js',
+		[ 'altis-analytics-audience-ui' ]
+	);
+
+	wp_enqueue_script( 'byg-editor' );
 }

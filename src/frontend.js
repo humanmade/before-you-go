@@ -1,16 +1,22 @@
+import { getMatchingAudience } from './services/audiences';
 import { injectPage } from './services/history';
-import { has as hasQuery } from './services/query';
-import { has as hasReferrer } from './services/referrer';
 
 /**
  * BYG global object, mostly PHP-filterable.
  *
  * @typedef {object} BYG
- * @property {string[]} referrers  Array of referrer trigger domains.
- * @property {string[]} utmSources Array of utm_source trigger values.
+ * @property {BYG_Page[]} urls     Array of BYG pages and the audiences for each.
  * @property {boolean}  debug      Whether in debug mode.
  * @property {Function} [trigger]  Trigger logic for BYG behavior.
  * @property {Function} [callback] Callback to execute if trigger condition is met.
+ */
+
+/**
+ * Before You Go page configuration.
+ *
+ * @typedef {object} BYG_Page
+ * @property {string} permalink URL of page to serve.
+ * @property {integer} audience Post ID of audience for this page.
  */
 
 /**
@@ -19,10 +25,11 @@ import { has as hasReferrer } from './services/referrer';
  * @param {BYG} BYG Before You Go window global object.
  */
 const defaultTrigger = ( BYG ) => {
-	const { referrers, utmSources, callback } = BYG;
-	if ( hasQuery( 'utm_source', utmSources ) || hasReferrer( referrers ) ) {
-		callback( BYG );
-	}
+	const { callback, urls } = BYG;
+
+	BYG.url = getMatchingAudience( urls );
+
+	callback( BYG );
 };
 
 /**
@@ -37,6 +44,7 @@ const defaultCallback = ( { url } ) => {
 };
 
 window.addEventListener( 'load', () => {
+
 	// Read in the BYG global values and ensure required arrays are present.
 	/** @type {BYG} */
 	const BYG = Object.assign( {
@@ -47,11 +55,6 @@ window.addEventListener( 'load', () => {
 	if ( typeof BYG.trigger === 'function' ) {
 		// Custom logic present. Run BYG.trigger.
 		BYG.trigger( BYG );
-		return;
-	}
-
-	if ( ! BYG.url ) {
-		// No custom logic and no known target. Cannot proceed.
 		return;
 	}
 
