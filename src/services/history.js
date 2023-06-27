@@ -29,6 +29,7 @@ export const injectPage = ( data, bygUrl ) => {
 		setTimeout( () => {
 			if ( [ bygUrl, currentPage ].includes( target.location.href ) ) {
 				target.location.reload();
+				window.scrollTo( 0, 0 );
 			}
 
 			removeEventListener( 'popstate', onPopState );
