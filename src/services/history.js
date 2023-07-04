@@ -1,4 +1,10 @@
-const { history, addEventListener, removeEventListener } = window;
+const { history, addEventListener, sessionStorage } = window;
+
+/**
+ * Store a value in session storage indicating whether the user has already
+ * been served a Before You Go! experience.
+ */
+const SESSION_STORAGE_KEY = 'beforeYouGo';
 
 /**
  * Insert a page into the history, by replacing the current page with the
@@ -9,7 +15,28 @@ const { history, addEventListener, removeEventListener } = window;
  * @param {string|URL|null} bygUrl URL of the history entry to inject.
  */
 export const injectPage = ( data, bygUrl ) => {
-	const currentPage = window.location.href;
+
+	/*
+	 * The landing page URL where the BYG page was injected from.
+	 *
+	 * @var string
+	 */
+	const currentUrl = window.location.href;
+
+	// After navigating backward and forward, clear the navigation
+	// hacks out of the history so history navigation works as usual.
+	if ( history.state && history.state.isForwardPage ) {
+		history.replaceState( {}, '', currentUrl );
+		window.location.reload();
+		return;
+	}
+
+	// Ensure that we're not injecting more than one item into history.
+	if ( sessionStorage.getItem( SESSION_STORAGE_KEY ) ) {
+		return;
+	}
+
+	sessionStorage.setItem( SESSION_STORAGE_KEY, bygUrl );
 
 	/**
 	 * Handle popstate navigation in browsers that don't allow access to it directly.
