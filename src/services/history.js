@@ -49,24 +49,24 @@ export const injectPage = ( data, bygUrl ) => {
 	 * bar and the state object. This function, run after the popstate event
 	 * occurs, ensures we get a new pageload rather than solely a location bar update.
 	 *
-	 * @param {Event} event HTML popstate event triggered by back nutton navigation.
+	 * @param {Event} event HTML popstate event triggered by back button navigation.
 	 * @param {Window} event.target Window state after pop navigation.
 	 */
-	const onPopState = ( { target } ) => {
+	const onPopState = ( { state: { isBackPage, isForwardPage } } ) => {
+
+		if ( ! ( isBackPage || isForwardPage ) ) {
+			return;
+		}
+
 		setTimeout( () => {
-			if ( [ bygUrl, currentPage ].includes( target.location.href ) ) {
-				target.location.reload();
-				window.scrollTo( 0, 0 );
-			}
-
-			removeEventListener( 'popstate', onPopState );
+			window.location.reload();
+			window.scrollTo( 0, 0 );
+			history.replaceState( {}, '', currentUrl );
 		} );
-
-		return;
 	};
 
-	history.replaceState( data, '', bygUrl );
-	history.pushState( {}, '', currentPage );
+	history.replaceState( { isBackPage: true }, '', bygUrl );
+	history.pushState( { isForwardPage: true }, '', currentUrl );
 
 	addEventListener( 'popstate', onPopState );
 };

@@ -38,7 +38,7 @@ const defaultTrigger = ( BYG ) => {
  * @param {BYG} BYG Before You Go window object.
  */
 const defaultCallback = ( { url } ) => {
-	if ( url ) {
+	if ( url && url !== window.location.href ) {
 		injectPage( {}, url );
 	}
 };
