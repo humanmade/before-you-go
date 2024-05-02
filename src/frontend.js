@@ -27,9 +27,11 @@ import { injectPage } from './services/history';
 const defaultTrigger = ( BYG ) => {
 	const { callback, urls } = BYG;
 
-	BYG.url = getMatchingAudience( urls );
+	if ( callback && urls ) {
+		BYG.url = getMatchingAudience( urls );
 
-	callback( BYG );
+		callback( BYG );
+	}
 };
 
 /**
@@ -50,6 +52,7 @@ window.addEventListener( 'load', () => {
 	const BYG = Object.assign( {
 		referrers: [],
 		utmSources: [],
+		urls: [],
 	}, window.BYG || {} );
 
 	if ( typeof BYG.trigger === 'function' ) {
