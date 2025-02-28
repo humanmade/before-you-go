@@ -1,0 +1,5 @@
+{
+	"description": "Piggyback on wp-scripts' block detection to build frontend and editor bundles.",
+	"editorScript": "file:./editor.js",
+	"viewScript": "file:./frontend.js"
+}
