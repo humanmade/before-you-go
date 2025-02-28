@@ -9,7 +9,6 @@ declare( strict_types=1 );
 
 namespace Before_You_Go\Assets;
 
-use Asset_Loader;
 use Before_You_Go\Post_Types\BYG_Page;
 
 /**
@@ -59,7 +58,7 @@ function byg_script() : string {
  * @return void
  */
 function enqueue_frontend_scripts() : void {
-	$frontend_asset_file = include( plugin_dir_path( __DIR__ ) . 'build/frontend.asset.php');
+	$frontend_asset_file = include( plugin_dir_path( __DIR__ ) . 'build/frontend.asset.php' );
 
 	wp_register_script(
 		'byg-frontend',
@@ -79,7 +78,7 @@ function enqueue_frontend_scripts() : void {
  * @return void
  */
 function enqueue_block_editor_assets() : void {
-	$editor_asset_file = include( plugin_dir_path( __DIR__ ) . 'build/editor.asset.php');
+	$editor_asset_file = include( plugin_dir_path( __DIR__ ) . 'build/editor.asset.php' );
 
 	wp_register_script(
 		'byg-editor',
