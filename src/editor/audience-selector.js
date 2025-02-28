@@ -19,7 +19,7 @@ export const name = 'before-you-go-audience-picker';
  * Renders a panel in the document settings toolbar to select post audiences
  * for the current BYG offer.
  *
- * @returns {Component} Sidebar slotfill panel for selecting target audience.
+ * @return {Component} Sidebar slotfill panel for selecting target audience.
  */
 const AudienceSelectionPanel = function AudienceSelectionPanel() {
 	const [ audience, setAudience ] = useMeta( 'byg-audience' );
@@ -39,7 +39,7 @@ const AudienceSelectionPanel = function AudienceSelectionPanel() {
 						__( 'Audience for this page', 'byg-admin' ) : ''
 				}
 				onClearSelection={ () => setAudience( null ) }
-				onSelect={ ( audienceId, audience ) => {
+				onSelect={ ( audienceId ) => {
 					setAudience( parseInt( audienceId ) );
 				} }
 			/>
@@ -57,7 +57,7 @@ export const settings = {
 	/**
 	 * Render the audience picker in the post status panel.
 	 *
-	 * @returns {Component} UI for selecting post audience.
+	 * @return {Component} UI for selecting post audience.
 	 */
 	render: function Render() {
 		const postType = useSelect( ( select ) => select( 'core/editor' ).getCurrentPostType() );

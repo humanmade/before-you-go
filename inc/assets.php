@@ -9,7 +9,6 @@ declare( strict_types=1 );
 
 namespace Before_You_Go\Assets;
 
-use Asset_Loader;
 use Before_You_Go\Post_Types\BYG_Page;
 
 /**
@@ -23,41 +22,6 @@ function bootstrap() : void {
 
 	add_action( 'wp_enqueue_scripts', __NAMESPACE__ . '\\enqueue_frontend_scripts' );
 	add_action( 'enqueue_block_editor_assets', __NAMESPACE__ . '\\enqueue_block_editor_assets' );
-}
-
-/**
- * Choose the appropriate manifest, based on whether the dev server is running.
- *
- * @return string|null Manifest path, or null if no manifest found.
- */
-function get_manifest() : ?string {
-	$plugin_path = trailingslashit( plugin_dir_path( dirname( __FILE__, 1 ) ) );
-
-	return Asset_Loader\Manifest\get_active_manifest( [
-		$plugin_path . 'build/development-asset-manifest.json',
-		$plugin_path . 'build/production-asset-manifest.json',
-	] );
-}
-
-/**
- * Use Asset_Loader to register scripts using the same function signature as wp_register_script.
- *
- * @param string   $handle       Script handle.
- * @param string   $asset        Name of script in asset manifest.
- * @param string[] $dependencies Array of script dependencies.
- */
-function register_build_asset( $handle, $asset, $dependencies = [] ) : void {
-	$manifest = get_manifest();
-
-	if ( empty( $manifest ) ) {
-		trigger_error( "No manifest available for $asset", E_USER_WARNING );
-		return;
-	}
-
-	Asset_Loader\register_asset( $manifest, $asset, [
-		'handle' => $handle,
-		'dependencies' => $dependencies,
-	] );
 }
 
 /**
@@ -94,10 +58,13 @@ function byg_script() : string {
  * @return void
  */
 function enqueue_frontend_scripts() : void {
-	register_build_asset(
+	$frontend_asset_file = include( plugin_dir_path( __DIR__ ) . 'build/frontend.asset.php' );
+
+	wp_register_script(
 		'byg-frontend',
-		'before-you-go-frontend.js',
-		[]
+		plugins_url( 'build/frontend.js', __DIR__ ),
+		$frontend_asset_file['dependencies'],
+		$frontend_asset_file['version']
 	);
 
 	wp_add_inline_script( 'byg-frontend', byg_script() );
@@ -111,10 +78,13 @@ function enqueue_frontend_scripts() : void {
  * @return void
  */
 function enqueue_block_editor_assets() : void {
-	register_build_asset(
+	$editor_asset_file = include( plugin_dir_path( __DIR__ ) . 'build/editor.asset.php' );
+
+	wp_register_script(
 		'byg-editor',
-		'before-you-go-editor.js',
-		[ 'altis-analytics-audience-ui' ]
+		plugins_url( 'build/editor.js', __DIR__ ),
+		$editor_asset_file['dependencies'],
+		$editor_asset_file['version']
 	);
 
 	wp_enqueue_script( 'byg-editor' );

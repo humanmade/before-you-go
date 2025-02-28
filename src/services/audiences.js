@@ -7,7 +7,7 @@ import { getAudiences } from '@altis/analytics';
  * Find the first matching audience from an array of pages.
  *
  * @param {BYG_Page[]} urls Array of Before You Go pages and their audiences.
- * @returns {?string}  URL of BYG page to serve, if one matches.
+ * @return {?string}  URL of BYG page to serve, if one matches.
  */
 export const getMatchingAudience = ( urls ) => {
 	const userAudiences = getAudiences();

@@ -2,10 +2,7 @@
 module.exports = {
 	'root': true,
 	'extends': [
-		'eslint:recommended',
-		'plugin:import/errors',
-		'plugin:jsdoc/recommended',
-		'plugin:react-hooks/recommended',
+		'plugin:@wordpress/eslint-plugin/recommended',
 	],
 	'env': {
 		'browser': true,
@@ -13,34 +10,26 @@ module.exports = {
 		'commonjs': true,
 		'jest': true,
 	},
-	'parser': require.resolve( 'babel-eslint' ),
+	'parser': require.resolve( '@babel/eslint-parser' ),
 	'parserOptions': {
-		'ecmaVersion': 2018,
+		'babelOptions': {
+			'presets': [ '@babel/preset-react' ],
+		},
+		'requireConfigFile': false,
 		'ecmaFeatures': {
 			'jsx': true,
 		},
 		'sourceType': 'module',
 	},
-	'plugins': [
-		'react',
-		'jsx-a11y',
-		'flowtype',
-		'import',
-		'jsdoc',
-		'react-hooks',
-	],
 	'settings': {
 		'react': {
 			'version': 'detect',
 		},
 	},
-	'ignorePatterns': [
-		'node_modules/',
-		'src/vendor/',
-		'vendor/',
-		'*.min.js',
-	],
 	'rules': {
+		// Disable prettier integration.
+		'prettier/prettier': 'off',
+
 		// Original set of rules chosen to override HM standards:
 		// (These are maintained here in the code so that it is more clear
 		// which of the computed rules below may differ from the HM defaults,
@@ -103,6 +92,7 @@ module.exports = {
 			'exemptEmptyConstructors': false,
 			'exemptEmptyFunctions': false,
 		} ],
+		'jsdoc/tag-lines': 'off',
 		'jsdoc/no-undefined-types': 'off',
 		'array-bracket-spacing': [ 'error', 'always' ],
 		'arrow-spacing': [ 'error', {
@@ -424,8 +414,5 @@ module.exports = {
 		'jsx-a11y/role-has-required-aria-props': 'warn',
 		'jsx-a11y/role-supports-aria-props': 'warn',
 		'jsx-a11y/scope': 'warn',
-		'flowtype/define-flow-type': 'warn',
-		'flowtype/require-valid-file-annotation': 'warn',
-		'flowtype/use-flow-type': 'warn',
 	},
 };
