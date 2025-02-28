@@ -61,12 +61,12 @@ function byg_script() : string {
 function enqueue_frontend_scripts() : void {
 	$frontend_asset_file = include( plugin_dir_path( __DIR__ ) . 'build/frontend.asset.php');
 
-    wp_register_script(
-        'byg-frontend',
-        plugins_url( 'build/frontend.js', __DIR__ ),
-        $frontend_asset_file['dependencies'],
-        $frontend_asset_file['version']
-    );
+	wp_register_script(
+		'byg-frontend',
+		plugins_url( 'build/frontend.js', __DIR__ ),
+		$frontend_asset_file['dependencies'],
+		$frontend_asset_file['version']
+	);
 
 	wp_add_inline_script( 'byg-frontend', byg_script() );
 
@@ -81,12 +81,12 @@ function enqueue_frontend_scripts() : void {
 function enqueue_block_editor_assets() : void {
 	$editor_asset_file = include( plugin_dir_path( __DIR__ ) . 'build/editor.asset.php');
 
-    wp_register_script(
-        'byg-editor',
-        plugins_url( 'build/editor.js', __DIR__ ),
-        $editor_asset_file['dependencies'],
-        $editor_asset_file['version']
-    );
+	wp_register_script(
+		'byg-editor',
+		plugins_url( 'build/editor.js', __DIR__ ),
+		$editor_asset_file['dependencies'],
+		$editor_asset_file['version']
+	);
 
 	wp_enqueue_script( 'byg-editor' );
 }
