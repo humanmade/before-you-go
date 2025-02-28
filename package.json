@@ -23,7 +23,7 @@
     "block-editor"
   ],
   "scripts": {
-    "test": "wp-scripts test-unit-js",
+    "test": "wp-scripts test-unit-js --passWithNoTests",
     "lint": "npm run eslint; npm run phpcs",
     "eslint": "wp-scripts lint-js src .eslintrc.js",
     "phpcs": "composer phpcs",
@@ -35,9 +35,8 @@
   },
   "devDependencies": {
     "@humanmade/block-editor-components": "^0.10.0",
+    "@wordpress/jest-preset-default": "^12.19.0",
     "@wordpress/scripts": "^30.12.0",
-    "babel-jest": "^29.4.2",
-    "jest": "^28.1.0",
     "lodash.throttle": "^4.1.1",
     "version-bump-prompt": "^6.1.0"
   }
