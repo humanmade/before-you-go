@@ -11,7 +11,7 @@ const SESSION_STORAGE_KEY = 'beforeYouGo';
  * target and then pushing the current actual page again to create a virtual
  * page "back" from the current one.
  *
- * @param {any}             data  Data to set in the injected page state.
+ * @param {any}             data   Data to set in the injected page state.
  * @param {string|URL|null} bygUrl URL of the history entry to inject.
  */
 export const injectPage = ( data, bygUrl ) => {
@@ -49,7 +49,7 @@ export const injectPage = ( data, bygUrl ) => {
 	 * bar and the state object. This function, run after the popstate event
 	 * occurs, ensures we get a new pageload rather than solely a location bar update.
 	 *
-	 * @param {Event} event HTML popstate event triggered by back button navigation.
+	 * @param {Event}  event        HTML popstate event triggered by back button navigation.
 	 * @param {Window} event.target Window state after pop navigation.
 	 */
 	const onPopState = ( { state: { isBackPage, isForwardPage } } ) => {
