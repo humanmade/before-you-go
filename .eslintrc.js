@@ -2,10 +2,7 @@
 module.exports = {
 	'root': true,
 	'extends': [
-		'eslint:recommended',
-		'plugin:import/errors',
-		'plugin:jsdoc/recommended',
-		'plugin:react-hooks/recommended',
+		'plugin:@wordpress/eslint-plugin/recommended',
 	],
 	'env': {
 		'browser': true,
@@ -13,9 +10,9 @@ module.exports = {
 		'commonjs': true,
 		'jest': true,
 	},
-	'parser': require.resolve( 'babel-eslint' ),
+	'parser': require.resolve( '@babel/eslint-parser' ),
 	'parserOptions': {
-		'ecmaVersion': 2018,
+		'requireConfigFile': false,
 		'ecmaFeatures': {
 			'jsx': true,
 		},
@@ -41,6 +38,9 @@ module.exports = {
 		'*.min.js',
 	],
 	'rules': {
+		// Disable prettier integration.
+		'prettier/prettier': 'off',
+
 		// Original set of rules chosen to override HM standards:
 		// (These are maintained here in the code so that it is more clear
 		// which of the computed rules below may differ from the HM defaults,
