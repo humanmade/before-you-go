@@ -12,31 +12,20 @@ module.exports = {
 	},
 	'parser': require.resolve( '@babel/eslint-parser' ),
 	'parserOptions': {
+		'babelOptions': {
+			'presets': [ '@babel/preset-react' ],
+		},
 		'requireConfigFile': false,
 		'ecmaFeatures': {
 			'jsx': true,
 		},
 		'sourceType': 'module',
 	},
-	'plugins': [
-		'react',
-		'jsx-a11y',
-		'flowtype',
-		'import',
-		'jsdoc',
-		'react-hooks',
-	],
 	'settings': {
 		'react': {
 			'version': 'detect',
 		},
 	},
-	'ignorePatterns': [
-		'node_modules/',
-		'src/vendor/',
-		'vendor/',
-		'*.min.js',
-	],
 	'rules': {
 		// Disable prettier integration.
 		'prettier/prettier': 'off',
@@ -425,8 +414,5 @@ module.exports = {
 		'jsx-a11y/role-has-required-aria-props': 'warn',
 		'jsx-a11y/role-supports-aria-props': 'warn',
 		'jsx-a11y/scope': 'warn',
-		'flowtype/define-flow-type': 'warn',
-		'flowtype/require-valid-file-annotation': 'warn',
-		'flowtype/use-flow-type': 'warn',
 	},
 };
