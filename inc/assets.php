@@ -26,41 +26,6 @@ function bootstrap() : void {
 }
 
 /**
- * Choose the appropriate manifest, based on whether the dev server is running.
- *
- * @return string|null Manifest path, or null if no manifest found.
- */
-function get_manifest() : ?string {
-	$plugin_path = trailingslashit( plugin_dir_path( dirname( __FILE__, 1 ) ) );
-
-	return Asset_Loader\Manifest\get_active_manifest( [
-		$plugin_path . 'build/development-asset-manifest.json',
-		$plugin_path . 'build/production-asset-manifest.json',
-	] );
-}
-
-/**
- * Use Asset_Loader to register scripts using the same function signature as wp_register_script.
- *
- * @param string   $handle       Script handle.
- * @param string   $asset        Name of script in asset manifest.
- * @param string[] $dependencies Array of script dependencies.
- */
-function register_build_asset( $handle, $asset, $dependencies = [] ) : void {
-	$manifest = get_manifest();
-
-	if ( empty( $manifest ) ) {
-		trigger_error( "No manifest available for $asset", E_USER_WARNING );
-		return;
-	}
-
-	Asset_Loader\register_asset( $manifest, $asset, [
-		'handle' => $handle,
-		'dependencies' => $dependencies,
-	] );
-}
-
-/**
  * Render
  *
  * @return string
