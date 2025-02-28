@@ -103,6 +103,7 @@ module.exports = {
 			'exemptEmptyConstructors': false,
 			'exemptEmptyFunctions': false,
 		} ],
+		'jsdoc/tag-lines': 'off',
 		'jsdoc/no-undefined-types': 'off',
 		'array-bracket-spacing': [ 'error', 'always' ],
 		'arrow-spacing': [ 'error', {
