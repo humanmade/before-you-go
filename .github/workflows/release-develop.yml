@@ -1,4 +1,4 @@
-name: Develop Release
+name: Build to "release-develop" branch
 
 on:
   push:
@@ -10,33 +10,11 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  release:
+  release-develop:
     name: "Update release-develop branch"
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check out
-        uses: actions/checkout@v3
-
-      - uses: actions/setup-node@v3
-        with:
-          node-version: '16'
-
-      - name: Install SSH deploy key
-        uses: shimataro/ssh-key-action@v2
-        with:
-          key: ${{ secrets.DEPLOY_KEY }}
-          config: |
-            Host github.com
-              IdentityFile=/home/runner/.ssh/id_rsa
-          known_hosts: unnecessary # github.com is added automatically
-          if_key_exists: replace
-
-      - name: Merge and build
-        uses: ./.github/actions/build-to-release-branch
-        with:
-          source_branch: develop
-          release_branch: release-develop
-          built_asset_paths: build
-          build_script: |
-            npm ci
-            npm run build
+    uses: humanmade/hm-github-actions/.github/workflows/build-and-release-node.yml@a9a243d6c42fbff4a967d7ce0a6b307bc77251b7 # v0.1.0
+    with:
+      node_version: 20
+      source_branch: main
+      release_branch: release-develop
+      built_asset_paths: build
