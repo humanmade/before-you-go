@@ -84,7 +84,7 @@ function enqueue_block_editor_assets() : void {
 	wp_register_script(
 		'byg-editor',
 		plugins_url( 'build/editor.js', __DIR__ ),
-		$editor_asset_file['dependencies'],
+		array_merge( [ 'altis-accelerate-audiences/ui' ], $editor_asset_file['dependencies'] ),
 		$editor_asset_file['version']
 	);
 
