@@ -11,7 +11,7 @@
     },
     "require": {
         "composer/installers": "~1.0",
-        "humanmade/asset-loader": "^0.6.3",
+        "humanmade/asset-loader": "^0.6.3 || ^0.8.0",
         "altis/aws-analytics": "^4.6"
     },
     "require-dev": {
